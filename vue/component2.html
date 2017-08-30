@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>子组件通过消息传递数据给父组件</title>
+</head>
+<body>
+
+<div id="counter-event-example">
+    <p>{{total}}</p>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+
+    Vue.component('button-counter', {
+        template: '<button v-on:click="incrementCounter">{{counter}}</button>',
+        data: function(){
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+            incrementCounter: function(){
+                this.counter += 1;
+                this.$emit('increment');
+            }
+        }
+    });
+
+    var app = new Vue({
+        el: '#counter-event-example',
+        data: {
+            total: 0
+        },
+        methods: {
+            incrementTotal: function () {
+                this.total += 1;
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

@@ -35,7 +35,9 @@
 
 <div id="app-6">
     <p>{{message}}</p>
-    <input type="text" v-model="message">
+    <!--<input type="text" v-model.lazy="message"> 只在焦点改变的时候同步数据-->
+    <input v-model.trim="message">
+    <input type="number" v-model.number="age">
 </div>
 
 <div id="app-7">
@@ -50,6 +52,10 @@
 
 <div id="app-html" v-html="rawHtml">
 
+</div>
+
+<div id="app-show" v-show="ok">
+    看得到我！
 </div>
 
 <script src="js/vue.js"></script>
@@ -116,7 +122,8 @@
     var app6 = new Vue({
         el: '#app-6',
         data: {
-            message: 'Hello Vue!'
+            message: 'Hello Vue!',
+            age: 23
         }
     });
 
@@ -140,6 +147,13 @@
         el: '#app-html',
         data: {
             rawHtml: "<p><i>这里是嵌入里的html.</i></p>"
+        }
+    });
+
+    var appshow = new Vue({
+        el: '#app-show',
+        data: {
+            ok: false
         }
     });
 
