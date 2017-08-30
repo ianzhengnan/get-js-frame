@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue练习</title>
+</head>
+<body>
+
+<div id="app">
+   Hello {{ message | capitalize }} <br>
+</div>
+
+<div id="app-2">
+    <span v-bind:title="message">
+        鼠标悬停几秒查看动态信息！
+    </span>
+</div>
+
+<div id="app-3">
+    <p v-if="seen">现在你看到我了</p>
+</div>
+
+<div id="app-4">
+    <ol>
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+
+<div id="app-5">
+    <p>{{message}}</p>
+    <button v-on:click="reverseMessage">逆转消息</button>
+</div>
+
+<div id="app-6">
+    <p>{{message}}</p>
+    <input type="text" v-model="message">
+</div>
+
+<div id="app-7">
+    <ol>
+        <todo-item
+            v-for="item in groceryList"
+            v-bind:todo="item"
+            v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>
+
+<div id="app-html" v-html="rawHtml">
+
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Vue!'
+        },
+        filters: {
+            capitalize: function(value){
+                if(!value) return '';
+                value = value.toString();
+                return value.charAt(0).toUpperCase() + value.slice(1);
+                // value = 'vue'; value.charAt(0) --> 'v'; value.slice(1) --> 'ue'
+            }
+        },
+        created: function(){
+            console.log('message is ' + this.message);
+        },
+        updated: function(){
+            console.log("message is updated from " + this.message)
+        }
+    });
+
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: '页面加载与 ' + new Date().toLocaleString()
+        }
+    });
+
+    var app3 = new Vue({
+        el: "#app-3",
+        data: {
+            seen: true
+        }
+    });
+
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { text: '学习 javascript'},
+                { text: '学习 Vue'},
+                { text: '学习整个牛项目'}
+            ]
+        }
+    });
+
+    var app5 = new Vue({
+       el: '#app-5',
+       data: {
+           message: 'Hello Vue.js!'
+       },
+       methods: {
+           reverseMessage: function(){
+               this.message = this.message.split('').reverse().join('');
+           }
+       }
+    });
+
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'Hello Vue!'
+        }
+    });
+
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    });
+
+    var app7 = new Vue({
+        el: '#app-7',
+        data: {
+            groceryList: [
+                {id: 0, text: '蔬菜'},
+                {id: 1, text: '奶酪'},
+                {id: 2, text: '其他'}
+            ]
+        }
+    });
+
+    var inlinetest = new Vue({
+        el: '#app-html',
+        data: {
+            rawHtml: "<p><i>这里是嵌入里的html.</i></p>"
+        }
+    });
+
+</script>
+</body>
+</html>
